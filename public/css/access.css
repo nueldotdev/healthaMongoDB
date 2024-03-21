@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Yantramanav", sans-serif;
+}
+
+
+:root {
+    --brand-color: rgb(174, 0, 0);
+    --brand-color-lt: rgb(180, 6, 6);
+}
+
+
+.main-contained {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: var(--brand-color);
+}
+
+
+.access-main {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.top-logo {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    padding: .5rem;
+
+    h2 {
+        margin-left: 5px;
+        color: #fff;
+    }
+}
+
+.access-box {
+    padding: 1rem;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    background-color: #fff;
+    text-align: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+form {
+    margin: 10px;
+    display: flex;
+    /* text-align: center; */
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    align-items: center;
+}
+
+input {
+    display: block;
+    width: 80%;
+    padding: 0.5rem;
+    border-radius: 30px;
+    border: 1px solid var(--brand-color);
+    text-align: center;
+    /* margin-bottom: 2rem; */
+    font-size: 20px;
+}
+
+button {
+    background-color: var(--brand-color-lt);
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 40%;
+    margin: 1rem 0 0;
+    border-radius: 10px;
+}
+
+.para {
+    width: 100%;
+    text-align: center;
+    /* border: 1px solid; */
+    padding: 10px;
+    color: #fff;
+}

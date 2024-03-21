@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Yantramanav", sans-serif;
+}
+
+:root {
+    --brand-color: rgb(174, 0, 0);
+    --brand-color-lt: rgb(180, 6, 6);
+}
+
+.main-body {
+    /* width: 100vw; */
+    height: 100vh;
+
+}
+
+.landing-nav {
+    width: 100%;
+    /* padding: 1rem; */
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    /* background-color: #ededed; */
+    transition: .6s;
+}
+
+.landing-nav.sticky {
+    background-color: rgb(174, 0, 0);
+    color: #fff;
+}
+
+.landing-nav .logo-img {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+
+.logo-img h2 {
+    margin-left: 10px;
+}
+
+/* .landing-nav img {
+    background-color: white;
+    padding: 10px;
+} */
+
+.landing-nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+
+.landing-nav li {
+    margin: 0 20px;
+}
+
+.landing-nav .btns {
+    padding: 10px;
+}
+
+.landing-nav button {
+    padding: 10px;
+    border: none;
+    background-color: var(--brand-color-lt);
+    color: #fff;
+    border-radius: 5px;
+    width: 5rem;
+}
+
+.landing-nav.sticky button {
+    background-color: transparent;
+    border: 2px solid #fff;
+}
+
+
+.banner {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner-pt {
+    position: relative;
+    height: 80%;
+    width: 85%;
+    border-radius: 20px;
+    background-color: rgb(22, 18, 16);
+    overflow: hidden;
+    /* background-image: url('images/logo/heart-lines.gif'); */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    display: flex;
+    align-items: flex-end;
+    justify-content: left;
+    opacity: 0;
+    /* Initially hide all elements */
+    animation: fadeIn 1s ease-in-out forwards;
+    animation-delay: 1s;
+}
+
+.banner-pt .section-text {
+    padding: 1rem;
+
+    h1 {
+        margin-bottom: 0.5rem;
+        font-size: 60px;
+    }
+
+    p {
+        font-size: 23px;
+    }
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply entrance animation to all elements within .section-text */
+.section-text>* {
+    opacity: 0;
+    /* Initially hide all elements */
+    animation: fadeIn 0.5s ease-in-out forwards;
+    /* Apply animation */
+}
+
+/* Delay animation for each element */
+.section-text>*:nth-child(1) {
+    animation-delay: 1.5s;
+}
+
+.section-text>*:nth-child(2) {
+    animation-delay: 2s;
+}
+
+.section-text>*:nth-child(3) {
+    animation-delay: 2.5s;
+}
+

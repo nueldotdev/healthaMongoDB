@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/admin.css">
+    <title>Healtha - Dashboard</title>
+</head>
+<body>
+    <div class="main-body">
+        <div class="dash-nav">
+            <div class="top-logo">
+                <img src="/images/logo/logo.png" alt="">
+                <h2>Healtha</h2>
+            </div> m roe
+            <div class="nav-btns">
+                <ul>
+                    <li>
+                        <button class="active li-btn"  data-target="dashboard-screen">
+                            <i class="fa-solid fa-house"></i>
+                            Dashboard
+                        </button>
+                    </li>
+                    <li>
+                        <button class="li-btn"  data-target="register-screen">
+                            <i class="fa-solid fa-book-medical"></i>
+                            Registers
+                        </button>
+                    </li>
+                    <li>
+                        <button class="li-btn"  data-target="patient-screen">
+                            <i class="fa-solid fa-bed"></i>
+                            Patients
+                        </button>
+                    </li>
+                    <li>
+                        <button class="li-btn"  data-target="staff-screen">
+                            <i class="fa-solid fa-user-doctor"></i>
+                            Staff
+                        </button>
+                    </li>
+                    <li>
+                        <button class="li-btn"  data-target="payment-screen">
+                            <i class="fa-solid fa-money-bill"></i>
+                            Payments
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="dash-screen">
+            <div class="dash-top-screen">
+                <h2 class="screen-title">Dashboard</h2>
+                <div class="top-screen-right">
+                    <input type="search" name="" placeholder="Search" id="" class="search-bar">
+                    <div class="user-sect">
+                        <p>Dr. Ted</p>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <button class="logout">
+                        Logout
+                    </button>
+                </div>
+            </div>
+            <div class="dash-screen-main">
+                <div class="main-contained">
+                    <div class="dashboard-screen active off" id="dashboard-screen">
+                        <div class="overview-box-cont">
+                            <div class="overview-box"></div>
+                            <div class="overview-box"></div>
+                            <div class="overview-box"></div>
+                            <div class="overview-box"></div>
+                        </div>
+                        <div class="overview-tables">
+                            <div class="ov-table"></div>
+                            <div class="ov-table"></div>
+                            <div class="ov-table"></div>
+                            <div class="ov-table"></div>
+                        </div>
+                    </div>
+                    <div class="registers-screen off" id="register-screen"></div>
+                    <div class="patient-screen off" id="patient-screen"></div>
+                    <div class="staff-screen off" id="staff-screen"></div>
+                    <div class="payment-screen off" id="payment-screen"></div>
+                </div>
+                <!-- <div class="overview-box-cont">
+                    <div class="overview-box"></div>
+                    <div class="overview-box"></div>
+                    <div class="overview-box"></div>
+                    <div class="overview-box"></div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+</body>
+</html>
