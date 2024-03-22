@@ -154,3 +154,20 @@
     animation-delay: 2.5s;
 }
 
+/* Text styling */
+.about-content{
+    display: flex;  
+    justify-content: space-between;
+    width: 80%;
+    padding-left: 10%;
+
+}
+.about-text{
+    font-family: "Yantramanav", sans-serif;
+    font-weight: 400;
+    width: 30rem;
+    float: right;
+    background-color: var(--brand-color-lt);
+
+
+}
