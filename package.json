@@ -1,7 +1,7 @@
 {
   "name": "healtha",
   "version": "1.0.0",
-  "description": "",
+  "description": "We'll be having three main folders - [`public`, `views` and `routes`]",
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon server.js",

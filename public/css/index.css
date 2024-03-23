@@ -167,7 +167,34 @@
     font-weight: 400;
     width: 30rem;
     float: right;
-    background-color: var(--brand-color-lt);
+}
+.about-text img{
+    width: 500px;
+    height: 500px;
+}
 
-
+.service-content{
+    display: flex;  
+    justify-content: space-between;
+    width: 80%;
+    padding-left: 10%; 
+}
+.service-text{
+    font-family: "Yantramanav", sans-serif;
+    font-weight: 400;
+    width: 50rem;
+    float: right;
+}
+.section-text img{
+    width: fit-content;
+    height: fit-content;
+}
+.contentTop{
+    display: grid;
+    justify-content: center;
+    width: 100%;
+}
+.contentTop h3{
+    justify-self: center;
+    font-size: 3rem;
 }
