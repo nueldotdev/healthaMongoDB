@@ -17,22 +17,13 @@ let database;
 
 // API Code will be up here
 
-// API route to fetch patients
-app.get('/api/patients', async (req, res) => {
+/// Example API route to fetch from any collection
+// We just pass in the name in the `:collectionName` area, which express reads as a parameter
+app.get('/api/:collectionName', async (req, res) => {
+    // console.log(req.params.collectionName)
     try {
-        const Collection = database.collection('patients');
-        const result = await Collection.find({}).toArray();
-        res.json(result);
-    } catch (err) {
-        console.error('Error fetching patients:', err);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
-// API route to fetch admin
-app.get('/api/staff', async (req, res) => {
-    try {
-        const Collection = database.collection('staff');
+        // The here we fetch the `collectionName` parameter from the request URL
+        const Collection = database.collection(req.params.collectionName);
         const result = await Collection.find({}).toArray();
         res.json(result);
     } catch (err) {

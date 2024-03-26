@@ -1,3 +1,26 @@
+window.addEventListener("DOMContentLoaded", () => {
+    restoreActiveSection();
+
+    getPatients();
+    getStaff();
+})
+
+
+// Our list of collections
+let allPatients = [];
+let allStaff = [];
+let allReg = [];
+let allPayment = [];
+let currentPage = 1
+
+
+
+
+
+
+
+
+
 
 //  Sidenav buttons
 const theButtons = document.querySelectorAll(".li-btn");
@@ -18,23 +41,24 @@ const paymentScreen = document.getElementById("payment-screen");
 const listItems = document.querySelectorAll(".li-btn");
 const divs = document.querySelectorAll(".main-contained > div");
 
-
+// let cont = actionAreaBtn.innerText.toLowerCase().split(' ')
+// cont = cont[1]
 function handleTabClick(event) {
     const clickedTab = event.target;
     const targetDivId = clickedTab.getAttribute("data-target");
     const targetDiv = document.getElementById(targetDivId);
-  
+
     // Remove "active" class from all tabs and divs
     listItems.forEach((item) => item.classList.remove("active"));
     divs.forEach((div) => div.classList.remove("active"));
-  
+
     // Set the title text
     title.textContent = clickedTab.textContent;
-  
+
     // Add "active" class to the clicked tab and its corresponding div
     clickedTab.classList.add("active");
     targetDiv.classList.add("active");
-    
+
     // We store the new active page in local storage
     storeActiveSection(targetDivId);
 }
@@ -75,102 +99,206 @@ restoreActiveSection();
 
 
 // Fetch patient data from the backend API
-fetch('/api/patients')
-    .then(response => response.json())
-    .then(patients => {
-        const patientTableBody = document.querySelector('#patientTable tbody');
-
-        // Clear existing table rows
-        patientTableBody.innerHTML = '';
-
-        // Iterate over each patient object and create a table row for each
-        patients.forEach(patient => {
-            const row = document.createElement('tr');
-
-            // Create table cells for each patient attribute
-            const registrationIdCell = document.createElement('td');
-            registrationIdCell.textContent = patient.registration_id;
-            row.appendChild(registrationIdCell);
-
-            const nameCell = document.createElement('td');
-            nameCell.textContent = patient.name;
-            row.appendChild(nameCell);
-
-            const ageCell = document.createElement('td');
-            ageCell.textContent = patient.age;
-            row.appendChild(ageCell);
-
-            const genderCell = document.createElement('td');
-            genderCell.textContent = patient.gender;
-            row.appendChild(genderCell);
-
-            const emailCell = document.createElement('td');
-            emailCell.textContent = patient.email;
-            row.appendChild(emailCell);
-            
-                       
-            const departmentCell = document.createElement('td');
-            departmentCell.textContent = patient.department;
-            row.appendChild(departmentCell);
-            
-            const statusCell = document.createElement('td');
-            statusCell.textContent = patient.status;
-            row.appendChild(statusCell);
-
-            // Append the row to the table body
-            patientTableBody.appendChild(row);
-        });
-    })
-    .catch(error => {
+const getPatients = async () => {
+    try {
+        const response = await fetch('/api/patients');
+        allPatients = await response.json();
+        updateTables('patient-screen', allPatients, currentPage);
+        updatePaginationInfo('patient-screen', allPatients);
+    } catch (error) {
         console.error('Error fetching data:', error);
-    });
+    }
+    console.log("List =>", allPatients)
+}
+
 
 
 
 // Fetch staff data from the backend API
-fetch('/api/staff')
-    .then(response => response.json())
-    .then(staffs => {
-        const staffTableBody = document.querySelector('#staffTable tbody');
+const getStaff = async () => {
+    try {
+        const response = await fetch('/api/staff');
+        allStaff = await response.json();
+        updateTables('staff-screen', allStaff ,currentPage);
+        updatePaginationInfo('staff-screen', allStaff);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
 
-        // Clear existing table rows
-        staffTableBody.innerHTML = '';
 
-        // Iterate over each staff object and create a table row for each
-        staffs.forEach((staff, index)=> {
+
+
+
+
+
+const refreshPatients = document.querySelectorAll("#rf-btn")
+
+refreshPatients.forEach((rfElement) => {
+    rfElement.addEventListener("click", () => {
+        rfpState = rfElement.nextElementSibling
+        rfElement.style.animation = "rotate 1s infinite";
+        rfpState.textContent = "Getting...";
+        getPatients();
+        getStaff();
+        setTimeout(function () {
+            rfpState.textContent = "Up to date";
+            rfElement.style.animation = "none";
+        }, 2000);
+        setTimeout(function () {
+            rfpState.textContent = "";
+        }, 4000)
+    });
+})
+
+
+const tgleBtn = document.querySelectorAll(".dropdown-toggle");
+const tgleSection = document.querySelectorAll(".dropdown-menu");
+const tgleSectionBtns = document.querySelectorAll(".dropdown-item");
+const actionAreaBtns = document.querySelectorAll("#activeActionBtn");
+
+tgleBtn.forEach((buttons) => {
+    buttons.addEventListener("click", () => {
+        let exactToggle = buttons.parentElement
+        exactToggle = exactToggle.nextElementSibling
+
+        exactToggle.classList.toggle("active");
+        buttons.classList.toggle("open");
+    })
+})
+tgleSectionBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        let subject = btn.parentElement
+        subject = subject.previousElementSibling
+        subject = subject.children
+
+        let other = btn.parentElement
+        let label = subject[0]
+        let dropdown = subject[1]
+
+        // tgleSection.forEach((one) => one.classList.remove("active"));
+        // tgleBtn.forEach((button) => {
+        //     button.classList.remove("open");
+        // })
+        other.classList.remove("active")
+        dropdown.classList.remove('open')
+        label.innerHTML = btn.innerHTML
+    })
+})
+
+
+actionAreaBtns.forEach((actionAreaBtn) => {
+    actionAreaBtn.addEventListener("click", () => {
+        const currentAction = actionAreaBtn.textContent.trim();
+        const screen = actionAreaBtn.closest(".active.off");
+        const label = screen.querySelector(".dropdown-toggle");
+
+        console.log("AAB => ", screen)
+        // Perform action based on the current action label
+        // switch (currentAction) {
+        //     case "Add":
+        //         // Code to handle add action
+        //         console.log("Add action clicked");
+        //         break;
+        //     case "Search":
+        //         // Code to handle search action
+        //         console.log("Search action clicked");
+        //         break;
+        //     case "Delete":
+        //         // Code to handle delete action
+        //         console.log("Delete action clicked");
+        //         break;
+        //     default:
+        //         console.log("Unknown action");
+        // }
+
+        // Update the label if needed
+        // label.innerHTML = currentAction;
+    });
+});
+
+
+
+
+
+
+// Implementing Pagination
+// Function to update table with data for the current page
+function updateTables(page, array, pageNo) {
+    const startIndex = (pageNo - 1) * 5;
+    const endIndex = startIndex + 5;
+    const pageList = array.slice(startIndex, endIndex);
+    // const patientTableBody = document.getElementById('patientBody');
+    const bodyParent = document.querySelector(`.${page}`);
+    const tableBody = bodyParent.querySelector(`tbody`);
+    console.log("Body => ", tableBody);
+    console.log("Aray => ", array);
+    console.log("pageNo => ", pageNo);
+    
+    tableBody.innerHTML = ''; // Clear existing table rows
+
+    if (bodyParent.classList.contains("staff-screen")) {
+        pageList.forEach((staff, index) => {
             const row = document.createElement('tr');
 
-            // Create table cells for each staff attribute
-            const numberCell = document.createElement('td');
-            numberCell.textContent = index + 1; // Add 1 to index to start numbering from 1
-            row.appendChild(numberCell);
-            
-            const nameCell = document.createElement('td');
-            nameCell.textContent = staff.name;
-            row.appendChild(nameCell);
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${staff.name}</td>
+                <td>${staff.role}</td>
+                <td>${staff.department}</td>
+                <td>${staff.email}</td>
+                <td>${staff.contact}</td>`
 
-            const roleCell = document.createElement('td');
-            roleCell.textContent = staff.role;
-            row.appendChild(roleCell);
-
-            const departmentCell = document.createElement('td');
-            departmentCell.textContent = staff.department;
-            row.appendChild(departmentCell);
-
-            const emailCell = document.createElement('td');
-            emailCell.textContent = staff.email;
-            row.appendChild(emailCell);                       
-            
-            const contactCell = document.createElement('td');
-            contactCell.textContent = '+' + staff.contact;
-            row.appendChild(contactCell);
-
-            // Append the row to the table body
-            staffTableBody.appendChild(row);
+            console.assert("Row created")
+            tableBody.appendChild(row);
+            console.assert("Row Added")
         });
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
+    } else if (bodyParent.classList.contains("patient-screen")) {
+        pageList.forEach(patient => {
+            const row = document.createElement('tr');
+    
+            // Create table cells for each patient attribute
+            row.innerHTML = `
+            <td>${patient.registration_id}</td>
+            <td>${patient.name}</td>
+            <td>${patient.age}</td>
+            <td>${patient.gender}</td>
+            <td>${patient.department}</td>
+            <td>${patient.status}</td>`
+    
+            // Append the row to the table body
+            tableBody.appendChild(row);
+            // allPatients.push(patient);
+        });
+    }
+}
 
 
+
+// Function to update pagination information (current page and total pages)
+function updatePaginationInfo(page, array) {
+    const screen = document.querySelector(`.${page}`)
+    const totalPages = Math.ceil(array.length / 5);
+
+    screen.querySelector('#currentPage').textContent = currentPage;
+    screen.querySelector('#totalPages').textContent = totalPages;
+}
+
+// Event listener for previous button
+document.querySelector('.staff-screen #prevBtn').addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        updateTables('staff-screen', allStaff, currentPage);
+        updatePaginationInfo('staff-screen', allStaff);
+    }
+});
+
+// Event listener for next button
+document.querySelector('.staff-screen #nextBtn').addEventListener('click', () => {
+    const totalPages = Math.ceil(allStaff.length / 5);
+    if (currentPage < totalPages) {
+        currentPage++;
+        updateTables('staff-screen', allStaff, currentPage);
+        updatePaginationInfo('staff-screen', allStaff);
+    }
+});
