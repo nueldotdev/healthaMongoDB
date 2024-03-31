@@ -172,6 +172,9 @@
     width: 500px;
     height: 500px;
 }
+.about-text p {
+    width: 90%;
+}
 
 .service-content{
     display: flex;  
@@ -185,9 +188,12 @@
     width: 50rem;
     float: right;
 }
-.section-text img{
-    width: fit-content;
-    height: fit-content;
+.service-text img{
+    width: 700px;
+    height: 500px;
+}
+.service-text p {
+    width: 90%;
 }
 .contentTop{
     display: grid;
