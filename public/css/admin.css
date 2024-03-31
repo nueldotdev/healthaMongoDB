@@ -359,6 +359,7 @@ table {
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-transform: capitalize;
 }
 
 th, td {
@@ -394,6 +395,28 @@ tbody tr:hover {
     box-shadow: 0px 1px 10px 0 #80808026;
 }
 
+/* Pagination aand pagination buttons styling */
+#pagination {
+    display: flex;
+    padding: 10px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+
+    button {
+        cursor: pointer;
+        font-size: large;
+        padding: 5px;
+        color: var(--brand-color);
+        display: flex;
+        border-radius: 100px;
+        border: none;
+        background-color: transparent;
+        transition: .6s;
+    }
+
+}
 
 
 @keyframes rotate {

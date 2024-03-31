@@ -27,7 +27,7 @@ app.get('/api/:collectionName', async (req, res) => {
         const result = await Collection.find({}).toArray();
         res.json(result);
     } catch (err) {
-        console.error('Error fetching patients:', err);
+        console.error('Error fetching data:', err);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
