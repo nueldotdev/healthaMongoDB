@@ -195,32 +195,6 @@ refreshPatients.forEach((rfElement) => {
 })
 
 
-const tgleBtn = document.querySelectorAll(".dropdown-toggle");
-const tgleSection = document.querySelectorAll(".dropdown-menu");
-const tgleSectionBtns = document.querySelectorAll(".dropdown-item");
-const actionAreaBtns = document.querySelectorAll("#activeActionBtn");
-
-tgleBtn.forEach((buttons) => {
-    buttons.addEventListener("click", () => {
-        let exactToggle = document.querySelector(".active.off .dropdown-menu");
-
-        exactToggle.classList.toggle("active");
-        buttons.classList.toggle("open");
-    })
-})
-tgleSectionBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        let other = btn.parentElement
-        let label = document.querySelector(".active.off #activeActionBtn");
-        let dropdown = document.querySelector(".active.off .dropdown-toggle");
-
-
-        other.classList.remove("active")
-        dropdown.classList.remove('open')
-        label.innerHTML = btn.innerHTML
-    })
-})
-
 
 actionAreaBtns.forEach((actionAreaBtn) => {
     actionAreaBtn.addEventListener("click", () => {
@@ -253,20 +227,6 @@ actionAreaBtns.forEach((actionAreaBtn) => {
 });
 
 
-/*
-* Don't forget to decide either to create a form for each action or one form within each screen
-* Make sure to refactor most of the code that is unnecessary.
-* setAction() should be called when the button is clicked 
-* This applies to both the buttons within the list and the selected action button
-
-* setAction('add', 'patients')
-* When delete is selected, is should show a checkmark for each item in the table
-* and a delete button should be displayed in the action area
-* the selected item(s) should be deleted when the button is clicked
-
-* I might decide to make the actionAreaBtn the final button to be clicked when a form is filled or
-* items to be deleted are selected
-*/
 
 // This should hold forms
 document.getElementById('staffForm').addEventListener('submit', async (event) => {
