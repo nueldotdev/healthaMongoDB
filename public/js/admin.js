@@ -1,10 +1,17 @@
 window.addEventListener("DOMContentLoaded", () => {
     restoreActiveSection();
 
+    getDocs();
+})
+
+
+
+async function getDocs() {
     getReg();
     getPatients();
     getStaff();
-})
+}
+
 
 
 // Our list of collections
@@ -94,9 +101,6 @@ listItems.forEach((tab) => {
     tab.addEventListener("click", handleTabClick);
 });
 
-// Restore the active section on page load
-restoreActiveSection();
-
 
 
 // Fetch patient data from the backend API
@@ -106,6 +110,14 @@ const getPatients = async () => {
         const response = await fetch('/api/patients');
         allPatients = await response.json();
         const pageSwitch = document.querySelector('.active.off #paginationSwitch');
+        const pagControls = document.querySelector('.active.off #pagination');
+
+        if (pageSwitch.checked) {
+            pagControls.style.display = 'flex';
+        } else {
+            pagControls.style.display = 'none';
+        }
+        
         updateTables('patient-screen', allPatients, currentPage, pageSwitch.checked);
         updatePaginationInfo('patient-screen', allPatients);
     } catch (error) {
@@ -120,6 +132,14 @@ const getStaff = async () => {
         const response = await fetch('/api/staff');
         allStaff = await response.json();
         const pageSwitch = document.querySelector('.active.off #paginationSwitch');
+        const pagControls = document.querySelector('.active.off #pagination');
+
+        if (pageSwitch.checked) {
+            pagControls.style.display = 'flex';
+        } else {
+            pagControls.style.display = 'none';
+        }
+
         updateTables('staff-screen', allStaff ,currentPage, pageSwitch.checked);
         updatePaginationInfo('staff-screen', allStaff);
     } catch (error) {
@@ -133,6 +153,14 @@ const getReg = async () => {
         const response = await fetch('/api/registers');
         allReg = await response.json();
         const pageSwitch = document.querySelector('.active.off #paginationSwitch');
+        const pagControls = document.querySelector('.active.off #pagination');
+
+        if (pageSwitch.checked) {
+            pagControls.style.display = 'flex';
+        } else {
+            pagControls.style.display = 'none';
+        }
+
         updateTables('register-screen', allReg, currentPage, pageSwitch.checked);
         updatePaginationInfo('register-screen', allReg);
     } catch (error) {
@@ -278,43 +306,118 @@ document.getElementById('staffForm').addEventListener('submit', async (event) =>
 
 
 
-const setAction =  async (action, collection) => {
+// Event delegation for delete and edit buttons
+const btnsForEdit =  document.querySelectorAll(".edit-btn")
+const btnsForDel =  document.querySelectorAll(".delete-btn")
+const tables = document.querySelectorAll("table");
 
-    // Get the active screen
-    const activeScreen = document.querySelector(`.active.off.${collection}`);
-
-    // Perform action based on the current action label
-        switch (action) {
-            case "add":
-                // Code to handle add action
-                const addForm = document.getElementById("add-form");
-                addForm.style.display = "block";
-                // create a new addition to the collection which is derived from the current active screen
-                const inputs = activeScreen.querySelectorAll(".active.off input");
-                inputs.forEach((input) => {
-                    const name = input.name;
-                    const value = input.value;
-                    collection[name] = value;
-                });
-                break;
-            case "edit":
-                // Code to handle edit action
-                const editForm = document.getElementById("edit-form");
-                editForm.style.display = "block";
-                break;
-            case "delete":
-                // Code to handle delete action
-                // Delete the item from the collection
-                const id = document.querySelector(".active.off input[name=id]").value;
-                const response = await fetch(`/api/${collection}/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ id: id }),
-                });
+tables.forEach((table) => {
+    table.addEventListener('click', () => {
+        const target = event.target;
+        if (target.classList.contains('edit-btn')) {
+            const documentId = target.getAttribute('data-id');
+            console.log('Edit document with ID:', documentId);
+            // Implement edit logic using the documentId
         }
+        if (target.classList.contains('delete-btn')) {
+            const documentId = target.getAttribute('data-id');
+            console.log('Delete document with ID:', documentId);
+            // Implement delete logic using the documentId
+        }
+    })
+})
+
+
+var record;
+
+const setAction =  async () => {
 }
+
+
+// Function for edit, should bring up a table to edit the info (will take from data-attr of the button)
+function editRecord(event) {
+    const button = event.target.closest('button.edit-btn');
+    if (button) {
+        const params = button.dataset.id;
+        const collection = button.dataset.collection;
+        
+
+        console.log("Params:", params);
+        console.log("Collection:", collection);
+
+        if (collection == "staff") {
+            record = allStaff.find(item => item._id == params);
+            console.info("Staff Record:", record);
+        } else if (collection == "patients") {
+            record = allPatients.find(item => item._id == params);
+            // record = allPatients.find(item => item._id == "65fdd424f94c421d463d98ef");
+            console.info("Patients Record:", record);
+        } else if (collection == "registers") {
+            record = allReg.find(item => item._id == params);
+            console.info("Registers Record:", record);
+        }
+
+        console.log("Final Record:", record);
+        console.log(`Edit ${params} from ${collection}`);
+
+     
+    }
+}
+
+
+//  Function for delete -> Initiated when delete icon clicked, it takess from the data-attr of the button
+async function delRecord(event) {
+    const button = event.target.closest('button.delete-btn');
+    if (button) {
+        const params = button.dataset.id;
+        const collection = button.dataset.collection;
+        let record;
+
+        console.log("Params:", params);
+        console.log("Collection:", collection);
+
+        if (params) {
+            if (collection === "staff") {
+                record = allStaff.find(item => item._id === params);
+                console.info("Staff Record:", record);
+            } else if (collection === "patients") {
+                record = allPatients.find(item => item._id === params);
+                console.info("Patients Record:", record);
+            } else if (collection === "registers") {
+                record = allReg.find(item => item._id === params);
+                console.info("Registers Record:", record);
+            }
+    
+            const confirmed = window.confirm(`Are you sure you want to delete this ${collection} record from the database?`);
+            if (confirmed) {
+                try {
+                    const response = await fetch(`/api/${collection}/${params}`, {
+                        method: 'DELETE'
+                    });
+    
+                    if (!response.ok) {
+                        throw new Error('Failed to delete staff');
+                    }
+    
+                    // Remove the corresponding row from the table or update UI as needed
+                    getDocs();
+                    // Handle success response
+                    window.alert('Staff deleted successfully');
+                    console.log('Staff deleted successfully');
+                } catch (error) {
+                    console.error('Error deleting staff:', error);
+                    window.alert('Failed to delete staff');
+                }
+            }
+    
+            console.log("Final Record:", record);
+            console.log(`Delete ${params} from ${collection}`);
+    
+        }
+            
+    }
+}
+
 
 const allPageSwitch = document.querySelectorAll('#paginationSwitch');
 // Implementing Pagination
@@ -338,6 +441,14 @@ allPageSwitch.forEach((pageSwitch) => {
 
 // Function to update table with data for the current page
 function updateTables(page, array, pageNo, paginate) {
+    const pagControls = document.querySelector('.active.off #pagination');
+
+    if (paginate) {
+        pagControls.style.display = 'flex';
+    } else {
+        pagControls.style.display = 'none';
+    }
+        
     const startIndex = (pageNo - 1) * 5;
     const endIndex = startIndex + 5;
     const pageList = paginate ? array.slice(startIndex, endIndex) : array;
@@ -350,6 +461,8 @@ function updateTables(page, array, pageNo, paginate) {
     if (bodyParent.classList.contains("staff-screen")) {
         pageList.forEach((staff, index) => {
             const row = document.createElement('tr');
+            let id = `${staff.id}`
+            console.log(`ID => ${id}`)
 
             row.innerHTML = `
                 <td>${index + 1}</td>
@@ -357,7 +470,15 @@ function updateTables(page, array, pageNo, paginate) {
                 <td>${staff.role}</td>
                 <td>${staff.department}</td>
                 <td>${staff.email}</td>
-                <td>${staff.contact}</td>`
+                <td>${staff.contact}</td>
+                <td>
+                    <button class="edit-btn" data-id="${staff._id}" data-collection="staff" onclick="editRecord(event)">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                    <button class="delete delete-btn" data-id="${staff._id}" data-collection="staff" onclick="delRecord(event)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>`
 
             console.assert("Row created")
             tableBody.appendChild(row);
@@ -374,7 +495,15 @@ function updateTables(page, array, pageNo, paginate) {
             <td>${patient.age}</td>
             <td>${patient.gender}</td>
             <td>${patient.department}</td>
-            <td>${patient.status}</td>`
+            <td>${patient.status}</td>
+            <td>
+                <button class="edit-btn"  data-id="${patient._id}" data-collection="patients" onclick="editRecord(event)">
+                <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <button class="delete delete-btn"  data-id="${patient._id}" data-collection="patients" onclick="delRecord(event)">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>`
     
             // Append the row to the table body
             tableBody.appendChild(row);
@@ -402,7 +531,15 @@ function updateTables(page, array, pageNo, paginate) {
             <td>${patient.age}</td>
             <td>${patient.gender}</td>
             <td>${patient.is_patient}</td>
-            <td>${formattedDate}</td>`
+            <td>${formattedDate}</td>
+            <td>
+                <button class="edit-btn" data-id="${patient._id}" data-collection="registers" onclick="editRecord(event)">
+                <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <button class="delete delete-btn"  data-id="${patient._id}" data-collection="registers" onclick="delRecord(event)">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>`
     
             // Append the row to the table body
             tableBody.appendChild(row);

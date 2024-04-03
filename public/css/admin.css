@@ -362,6 +362,19 @@ table {
     text-transform: capitalize;
 }
 
+table button {
+    margin-right: 10px;
+    background-color: transparent;
+    font-size: medium;
+    border: none;
+    cursor: pointer;
+}
+
+table button.delete {
+    margin-right: 0;
+    color: rgb(211, 3, 3);
+}
+
 th, td {
     padding: 12px;
     text-align: left;

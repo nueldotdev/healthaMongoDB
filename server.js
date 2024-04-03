@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 // mongo connections
 const { MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const bodyParser = require('body-parser');
 
 // Body parser middleware
@@ -15,7 +16,31 @@ const client = new MongoClient(uri);
 let database;
 
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
 // API Code will be up here
+app.delete('/api/:collectionName/:id', async (req, res) => {
+    const id = req.params.id;
+    const collectionName = req.params.collectionName;
+
+    try {
+        const result = await database.collection(collectionName).deleteOne({ _id: new ObjectId(id) });
+
+        if (result.deletedCount === 0) {
+            throw new Error(`${collectionName} with id ${id} not found`);
+        }
+
+        res.status(200).json({ message: `${collectionName} deleted successfully` });
+    } catch (error) {
+        console.error(`Error deleting ${collectionName}:`, error);
+        res.status(500).json({ error: `Failed to delete ${collectionName}` });
+    }
+});
+
+
 
 /// Example API route to fetch from any collection
 // We just pass in the name in the `:collectionName` area, which express reads as a parameter
@@ -31,7 +56,6 @@ app.get('/api/:collectionName', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 
 
 
