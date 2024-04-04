@@ -36,7 +36,7 @@
 }
 
 .dash-screen-main {
-    height: 100%;
+    /* height: 100%; */
     padding: 1rem;
     overflow: auto;
 }
@@ -149,7 +149,7 @@
 /* main screen elements styling */
 .dash-screen-main .main-contained {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     /* overflow: auto; */
     /* background-color: white; */
 }
@@ -161,9 +161,10 @@
 
 
 .dash-screen-main .main-contained > div.active {
+    position: relative;
     display: block;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     /* background-color: bisque; */
 }
 
@@ -199,4 +200,244 @@
     height: 100%;
     border-radius: 10px;
     /* margin: 0 1rem; */
+}
+
+/* Search bar styling */
+.search-contained-area {
+    margin-bottom: 20px;
+}
+
+.row {
+    margin-bottom: 10px;
+}
+
+.row form {
+    display: flex;
+}
+
+.row input {
+    width: 100%;
+    padding: 10px;
+    margin: 0 10px 0 0;
+    border-radius: 5px;
+    font-size: 1rem;
+    border: none;
+}
+
+.row button {
+    padding: 10px;
+    background-color: var(--brand-color-lt);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.row select {
+    width: 100%;
+    margin: 0 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--brand-color-lt);
+} 
+
+.screen-table-name {
+    margin: 10px 0;
+}
+
+.screen-top-contained,
+.stc-left,
+.btn-cont-rf {
+    display: flex;
+    align-items: center;
+}
+
+.screen-top-contained {
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.btn-cont-rf {
+    button {
+        margin: 0 10px;
+    }
+
+    p {
+        color: rgb(132, 132, 132);
+    }
+}
+
+.screen-table-name {
+    margin: 10px 0;
+}
+
+
+.refresh-button {
+    color: rgb(227 44 44 / 37%);
+    cursor: pointer;
+    border: 1px solid;
+    border-color: currentColor;
+    display: flex;
+    padding: 5px;
+    border-radius: 100%;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.btn-actions {
+    background-color: var(--brand-color-lt);
+    border-radius: 5px;
+    padding: 2px;
+    display: flex;
+}
+.active-action-btn {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: medium;
+    border-right: 1px solid;
+    padding: 0 10px;
+    color: white;
+}
+.dropdown-toggle {
+    position: relative;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 7px;
+    border-radius: 10px;
+    transition: .6s;
+}
+
+.dropdown-toggle.open {
+    transform: rotate(180deg);
+}
+
+/* Style the dropdown menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    padding: 5px;
+    border-radius: 10px;
+    transform: translate(-2rem, .5rem);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Style the dropdown items */
+
+button.dropdown-item {
+    /* padding: 10px; */
+    padding: 12px;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    border-radius: 10px;
+}
+
+/* Add a hover effect to dropdown links */
+.dropdown-menu button:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown-menu.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    max-height: 80%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-transform: capitalize;
+}
+
+table button {
+    margin-right: 10px;
+    background-color: transparent;
+    font-size: medium;
+    border: none;
+    cursor: pointer;
+}
+
+table button.delete {
+    margin-right: 0;
+    color: rgb(211, 3, 3);
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    transition: .6s;
+    font-weight: bold;
+}
+
+/* Alternate row colors */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Hover effect */
+tbody tr:hover {
+    background-color: #e9e9e9;
+}
+
+/* Form Styling */
+.add-form.active  {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    height: 80%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 1px 10px 0 #80808026;
+}
+
+/* Pagination aand pagination buttons styling */
+#pagination {
+    display: flex;
+    padding: 10px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+
+    button {
+        cursor: pointer;
+        font-size: large;
+        padding: 5px;
+        color: var(--brand-color);
+        display: flex;
+        border-radius: 100px;
+        border: none;
+        background-color: transparent;
+        transition: .6s;
+    }
+
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
