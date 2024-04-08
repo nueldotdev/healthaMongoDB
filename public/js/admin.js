@@ -38,6 +38,8 @@ theButtons.forEach((tab) => {
 });
 
 
+
+
 // Dashboard screens
 const title = document.querySelector('.screen-title');
 const dashboardScreen = document.getElementById("dashboard-screen");
@@ -45,6 +47,11 @@ const registerScreen = document.getElementById("register-screen");
 const patientScreen = document.getElementById("patient-screen");
 const staffScreen = document.getElementById("staff-screen");
 const paymentScreen = document.getElementById("payment-screen");
+
+// Forms
+
+const regForm = registerScreen.querySelector("#regForm form");
+const staffForm = staffScreen.querySelector("#staffForm form");
 
 const listItems = document.querySelectorAll(".li-btn");
 const divs = document.querySelectorAll(".main-contained > div");
@@ -181,9 +188,7 @@ refreshPatients.forEach((rfElement) => {
         rfpState = rfElement.nextElementSibling
         rfElement.style.animation = "rotate 1s infinite";
         rfpState.textContent = "Getting...";
-        getReg();
-        getPatients();
-        getStaff();
+        getDocs();
         setTimeout(function () {
             rfpState.textContent = "Up to date";
             rfElement.style.animation = "none";
@@ -227,45 +232,6 @@ actionAreaBtns.forEach((actionAreaBtn) => {
 });
 
 
-
-// This should hold forms
-document.getElementById('staffForm').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    
-    const formData = new FormData(event.target);
-    const staffData = {
-        name: formData.get('name'),
-        role: formData.get('role'),
-        contact: formData.get('contact'),
-        email: formData.get('email'),
-        department: formData.get('department'),
-        is_active: true // Assuming is_active is always true
-    };
-    
-    try {
-        const response = await fetch('/api/staff', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(staffData)
-        });
-        if (response.ok) {
-            console.log('Staff data submitted successfully');
-            // Optionally, you can redirect the user to another page or display a success message
-        } else {
-            console.error('Failed to submit staff data');
-            // Optionally, you can display an error message to the user
-        }
-    } catch (error) {
-        console.error('Error submitting staff data:', error);
-        // Optionally, you can display an error message to the user
-    }
-});
-
-
-
-
 // Event delegation for delete and edit buttons
 const btnsForEdit =  document.querySelectorAll(".edit-btn")
 const btnsForDel =  document.querySelectorAll(".delete-btn")
@@ -290,9 +256,6 @@ tables.forEach((table) => {
 
 var record;
 
-const setAction =  async () => {
-}
-
 
 // Function for edit, should bring up a table to edit the info (will take from data-attr of the button)
 function editRecord(event) {
@@ -300,6 +263,7 @@ function editRecord(event) {
     if (button) {
         const params = button.dataset.id;
         const collection = button.dataset.collection;
+        let mainForm;
         
 
         console.log("Params:", params);
@@ -307,14 +271,47 @@ function editRecord(event) {
 
         if (collection == "staff") {
             record = allStaff.find(item => item._id == params);
-            console.info("Staff Record:", record);
+            // mainForm = staffForm;
+
+
+            staffForm.querySelector('input[name="id"]').value = record._id; // Assuming you have an input field with name "id" for the record ID
+            staffForm.querySelector('input[name="name"]').value = record.name;
+            staffForm.querySelector('select[name="gender"]').value = record.gender;
+            staffForm.querySelector('input[name="role"]').value = record.role;
+            staffForm.querySelector('input[name="department"]').value = record.department;
+            staffForm.querySelector('input[name="email"]').value = record.email;
+            staffForm.querySelector('input[name="contact"]').value = record.contact;
+
+            // Scroll to the form
+            staffForm.scrollIntoView({ behavior: 'smooth' });
         } else if (collection == "patients") {
             record = allPatients.find(item => item._id == params);
             // record = allPatients.find(item => item._id == "65fdd424f94c421d463d98ef");
             console.info("Patients Record:", record);
         } else if (collection == "registers") {
             record = allReg.find(item => item._id == params);
-            console.info("Registers Record:", record);
+
+            if (record.gender.toLowerCase() == 'male') {
+                regForm.querySelector('select[name="gender"]').selectedIndex = 1;
+            } else {
+                regForm.querySelector('select[name="gender"]').selectedIndex = 2;
+            }
+
+            if (record.is_patient == true) {
+                regForm.querySelector('select[name="is_patient"]').selectedIndex = 0;
+            } else {
+                regForm.querySelector('select[name="is_patient"]').selectedIndex = 1;
+            }
+            
+            regForm.querySelector('input[name="id"]').value = record._id; // Assuming you have an input field with name "id" for the record ID
+            regForm.querySelector('input[name="name"]').value = record.name;
+            // regForm.querySelector('select[name="gender"]').value = record.gender;
+            regForm.querySelector('input[name="age"]').value = record.age;
+            regForm.querySelector('input[name="address"]').value = record.address;
+            // regForm.querySelector('select[name="is_patient"]').value = record.is_patient;
+            regForm.querySelector('input[name="contact"]').value = record.contact;
+
+            regForm.scrollIntoView({ behavior: 'smooth' });
         }
 
         console.log("Final Record:", record);
@@ -348,7 +345,7 @@ async function delRecord(event) {
                 console.info("Registers Record:", record);
             }
     
-            const confirmed = window.confirm(`Are you sure you want to delete this ${collection} record from the database?`);
+            const confirmed = window.confirm(`Are you sure you want to delete the following; \n\nName: ${record.name}, \nRole: ${record.role} \n\n From the database?`);
             if (confirmed) {
                 try {
                     const response = await fetch(`/api/${collection}/${params}`, {
@@ -356,22 +353,19 @@ async function delRecord(event) {
                     });
     
                     if (!response.ok) {
-                        throw new Error('Failed to delete staff');
+                        throw new Error(`Failed to delete ${collection}`);
                     }
     
                     // Remove the corresponding row from the table or update UI as needed
                     getDocs();
                     // Handle success response
-                    window.alert('Staff deleted successfully');
-                    console.log('Staff deleted successfully');
+                    window.alert(`${collection} deleted successfully`);
+                    console.log(`${collection} deleted successfully`);
                 } catch (error) {
-                    console.error('Error deleting staff:', error);
-                    window.alert('Failed to delete staff');
+                    console.error(`Error deleting ${collection}:`, error);
+                    window.alert(`Failed to delete ${collection}`);
                 }
             }
-    
-            console.log("Final Record:", record);
-            console.log(`Delete ${params} from ${collection}`);
     
         }
             

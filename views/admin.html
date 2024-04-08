@@ -86,7 +86,7 @@
                     <div class="register-screen off registers" id="register-screen">
                         <div class="screen-top-contained">
                             <div class="stc-left">
-                                <h1 class="screen-table-name">All Patients</h1>
+                                <h1 class="screen-table-name">All Registers</h1>
                             <div class="btn-cont-rf">
                                 <button class="refresh-button" id="rf-btn">
                                     <i class="fa-solid fa-arrows-rotate"></i>
@@ -100,7 +100,7 @@
                                     <input type="checkbox" id="paginationSwitch" data-page="register-screen">
                                 </div>
                                 <div class="btn-actions">
-                                    <button class="active-action-btn" type="button" id="activeActionBtn" aria-expanded="false">
+                                    <button class="active-action-btn" type="button" id="activeActionBtn" aria-expanded="false" data-target="regForm>
                                         <i class="fas fa-plus"></i> <!-- Default icon (add) -->
                                         Add
                                       </button>
@@ -174,16 +174,49 @@
                                 <button id="nextBtn"><i class="fa-solid fa-circle-chevron-right"></i></button>
                             </div>
                         </div>
-                        <div class="form-contained">
-                            <form id="patientsForm">
-                                <input type="text" name="name" placeholder="Name">
-                                <input type="text" name="role" placeholder="Role">
-                                <input type="tel" name="contact" placeholder="Contact">
-                                <input type="email" name="email" placeholder="Email">
-                                <input type="text" name="department" placeholder="Department">
-                                <button type="submit">Submit</button>
+                        <div class="main-form-all active" id="regForm">
+                            <div class="form-inner-con">
+                                <h2 class="title-bar">Registration</h2>
+                            <form class="grid-container">
+                                <div class="id-contained" hidden>
+                                    <input type="text" name="id">
+                                </div>
+                                <div class="grid-item item item1">
+                                    <label for="name">Name:</label>
+                                    <input type="text" name="name">
+                                </div>
+                                <div class="grid-item item item2">
+                                    <label for="gender">Gender:</label>
+                                    <select name="gender" id="gSelect">
+                                        <option value="" default disabled>Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="grid-item item item3">
+                                    <label for="age">Age:</label>
+                                    <input type="number" name="age">
+                                </div>
+                                <div class="grid-item item item4">
+                                    <label for="address">Address:</label>
+                                    <input type="text" name="address">
+                                </div>
+                                <div class="grid-item item item5">
+                                    <label for="is_patient">Is Patient:</label>
+                                    <select name="is_patient" id="">
+                                        <option value="true" default>True</option>
+                                        <option value="false">False</option>
+                                    </select>
+                                </div>
+                                <div class="grid-item item item6">
+                                    <label for="Contact">Contact:</label>
+                                    <input type="tel" name="Contact">
+                                </div>
+                                <div class="grid-item item7">
+                                    <button type="submit">Submit</button>
+                                </div>
                             </form>
-                            
+                            </div>
                         </div>
                     </div>
                     <div class="patient-screen off patients" id="patient-screen">
@@ -203,7 +236,7 @@
                                     <input type="checkbox" id="paginationSwitch" data-page="patient-screen">
                                 </div>
                                 <div class="btn-actions">
-                                    <button class="active-action-btn" type="button" id="activeActionBtn" aria-expanded="false">
+                                    <button class="active-action-btn" type="button" id="activeActionBtn" aria-expanded="false" data-target="patientForm">
                                         <i class="fas fa-plus"></i> <!-- Default icon (add) -->
                                         Add
                                       </button>
@@ -293,12 +326,12 @@
                         <div class="screen-top-contained">
                             <div class="stc-left">
                                 <h1 class="screen-table-name">All Staff</h1>
-                            <div class="btn-cont-rf">
-                                <button class="refresh-button" id="rf-btn">
-                                    <i class="fa-solid fa-arrows-rotate"></i>
-                                </button>
-                                <p id="rf-state"></p>
-                            </div>
+                                <div class="btn-cont-rf">
+                                    <button class="refresh-button" id="rf-btn">
+                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                    </button>
+                                    <p id="rf-state"></p>
+                                </div>
                             </div>
                             <div class="dropdown">
                                 <div class="pagination-section-aab">
@@ -306,7 +339,7 @@
                                     <input type="checkbox" id="paginationSwitch" data-page="staff-screen">
                                 </div>
                                 <div class="btn-actions">
-                                    <button class="active-action-btn" type="button" id="activeActionBtn" aria-expanded="false">
+                                    <button class="active-action-btn" type="button" id="activeActionBtn" aria-expanded="false" data-target="staffForm">
                                         <i class="fas fa-plus"></i> <!-- Default icon (add) -->
                                         Add
                                       </button>
@@ -315,7 +348,7 @@
                                     </button>
                                 </div>
 
-                              </div>
+                            </div>
                               
                         </div>
                         <div class="search-filter">
@@ -380,16 +413,46 @@
                                 <button id="nextBtn"><i class="fa-solid fa-circle-chevron-right"></i></button>
                             </div>
                         </div>
-                        <div class="form-contained">
-                            <form id="staffForm">
-                                <input type="text" name="name" placeholder="Name">
-                                <input type="text" name="role" placeholder="Role">
-                                <input type="tel" name="contact" placeholder="Contact">
-                                <input type="email" name="email" placeholder="Email">
-                                <input type="text" name="department" placeholder="Department">
-                                <button type="submit">Submit</button>
+                        <div class="main-form-all active" id="staffForm">
+                            <div class="form-inner-con">
+                                <h2 class="title-bar">Staff Form</h2>
+                            <form class="grid-container">
+                                <div class="id-contained" hidden>
+                                    <input type="text" name="id">
+                                </div>
+                                <div class="grid-item item item1">
+                                    <label for="name">Name:</label>
+                                    <input type="text" name="name">
+                                </div>
+                                <div class="grid-item item item2">
+                                    <label for="gender">Gender:</label>
+                                    <select name="gender" id="gSelect">
+                                        <option value="" default disabled>Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="grid-item item item3">
+                                    <label for="role">Role:</label>
+                                    <input type="text" name="role">
+                                </div>
+                                <div class="grid-item item item4">
+                                    <label for="department">Department</label>
+                                    <input type="text" name="department">
+                                </div>
+                                <div class="grid-item item item5">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" id="">
+                                </div>
+                                <div class="grid-item item item6">
+                                    <label for="contact">Contact:</label>
+                                    <input type="tel" name="contact">
+                                </div>
+                                <div class="grid-item item7">
+                                    <button type="submit">Submit</button>
+                                </div>
                             </form>
-                            
+                            </div>
                         </div>
                     </div>
                     <div class="payment-screen off payment" id="payment-screen"></div>
@@ -402,8 +465,75 @@
                 </div> -->
             </div>
         </div>
+        <!-- <div class="all-main-forms active" id="editForm">
+            <form id="editStaffForm">
+                <input type="text" id="editName" placeholder="Name" name="Name">
+                <input type="text" id="editRole" placeholder="Role" name="Role">
+                <input type="text" id="editDepartment" placeholder="Department" name="Department">
+                <input type="email" id="editEmail" placeholder="Email" name="Email">
+                <input type="tel" id="editContact" placeholder="Contact" name="Contact">
+                <button type="submit">Update</button>
+            </form>
+        </div>
+
+        <div class="all-main-forms" id="regForm">
+            <form id="editRegForm">
+                <input type="text" id="editName" placeholder="Name">
+                <input type="text" id="editRole" placeholder="Role">
+                <input type="text" id="editDepartment" placeholder="Department">
+                <input type="email" id="editEmail" placeholder="Email">
+                <input type="text" id="editContact" placeholder="Contact">
+                <button type="submit">Update</button>
+            </form>
+        </div>
+
+        <div class="all-main-forms" id="patientsForm">
+            
+        </div> -->
+        <div class="main-form-all" id="regForm">
+            <div class="form-inner-con">
+                <h2 class="title-bar">Registration</h2>
+            <form class="grid-container">
+                <div class="grid-item item item1">
+                    <label for="name">Name:</label>
+                    <input type="text" name="name">
+                </div>
+                <div class="grid-item item item2">
+                    <label for="gender">Gender:</label>
+                    <select name="gender" id="gSelect">
+                        <option value="" default>Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="grid-item item item3">
+                    <label for="age">Age:</label>
+                    <input type="number" name="age">
+                </div>
+                <div class="grid-item item item4">
+                    <label for="address">Address:</label>
+                    <input type="text" name="address">
+                </div>
+                <div class="grid-item item item5">
+                    <label for="is_patient">Is Patient:</label>
+                    <select name="is_patient" id="">
+                        <option value="true" default>True</option>
+                        <option value="false">False</option>
+                    </select>
+                </div>
+                <div class="grid-item item item6">
+                    <label for="Contact">Contact:</label>
+                    <input type="tel" name="Contact">
+                </div>
+                <div class="grid-item item7">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+            </div>
+        </div>
     </div>
 
+    <script src="/js/adminForms.js"></script>
     <script src="/js/admin.js"></script>
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 </body>

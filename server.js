@@ -57,6 +57,51 @@ app.get('/api/:collectionName', async (req, res) => {
     }
 });
 
+// Add a new record to the specified collection
+app.post('/api/:collectionName', async (req, res) => {
+    const collectionName = req.params.collectionName;
+    const document = req.body;
+
+    try {
+        // Get reference to the database and collection
+        // const database = client.db(database);
+        const collection = database.collection(collectionName);
+
+        // Insert the document into the collection
+        const result = await collection.insertOne(document);
+
+        // Return the inserted document with its generated ObjectId
+        res.status(201).json(result.ops[0]);
+    } catch (error) {
+        console.error('Error adding document to collection:', error);
+        res.status(500).json({ error: 'Failed to add document to collection' });
+    }
+});
+
+app.put('/api/:collectionName/:id', async (req, res) => {
+    const collectionName = req.params.collectionName;
+    const id = req.params.id;
+    const updatedDocument = req.body;
+
+    try {
+        // Get reference to the database and collection
+        // const database = client.db('your_database_name');
+        const collection = database.collection(collectionName);
+
+        // Update the document in the collection
+        const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: updatedDocument });
+
+        // Check if the document was found and updated
+        if (result.matchedCount === 0) {
+            throw new Error(`${collectionName} not found`);
+        }
+
+        res.status(200).json({ message: `${collectionName} updated successfully` });
+    } catch (error) {
+        console.error(`Error updating ${collectionName}:`, error);
+        res.status(500).json({ error: `Failed to update ${collectionName}` });
+    }
+});
 
 
 app.use(express.static(__dirname + '/public'));
@@ -94,7 +139,7 @@ async function startServer() {
             console.info(`Server running on port ${PORT}`);
         });
     } catch (error) {
-        console.error("Error connecting to database:", error);
+        console.error("Error connecting to database:", error); 
     }
 }
 
