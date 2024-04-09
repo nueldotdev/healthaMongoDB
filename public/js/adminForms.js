@@ -174,3 +174,44 @@ regForm.addEventListener('submit', async function(e) {
 //         element.selectedIndex = 0;
 //     });
 // }
+// searc barrrrr
+//this is to handle the searching stuff
+function handleSearch(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+    
+    // Get the search query from the input field
+    const searchQuery = document.querySelector('#search-form input').value.trim().toLowerCase();
+    
+    // Perform search operation
+    const searchResults = performSearch(allStaff, searchQuery); // Pass the array and search query
+    
+    // Display search results
+    displaySearchResults(searchResults);
+}
+
+// Define a function to perform search operation on the array
+function performSearch(array, query) {
+    const searchResults = array.filter(item => {
+        return item.name.toLowerCase().includes(query);
+    });
+    
+    return searchResults;
+}
+
+// Define a function to display search results
+function displaySearchResults(results) {
+    // Clear previous search results if any
+    const searchResultsContainer = document.querySelector('#search-results');
+    searchResultsContainer.innerHTML = '';
+    
+    // Display search results
+    results.forEach(result => {
+        const resultElement = document.createElement('div');
+        // Customize the content based on your array structure
+        resultElement.textContent = result.name; // Assuming 'name' is the property to display
+        searchResultsContainer.appendChild(resultElement);
+    });
+}
+
+// Add event listener to the search form
+document.querySelector('#search-form').addEventListener('submit', handleSearch);
