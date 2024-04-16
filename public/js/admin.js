@@ -116,8 +116,8 @@ const getPatients = async () => {
     try {
         const response = await fetch('/api/patients');
         allPatients = await response.json();
-        const pageSwitch = document.querySelector('.active.off #paginationSwitch');
-        const pagControls = document.querySelector('.active.off #pagination');
+        const pageSwitch = document.querySelector('.patient-screen #paginationSwitch');
+        const pagControls = document.querySelector('.patient-screen #pagination');
 
         if (pageSwitch.checked) {
             pagControls.style.display = 'flex';
@@ -138,8 +138,8 @@ const getStaff = async () => {
     try {
         const response = await fetch('/api/staff');
         allStaff = await response.json();
-        const pageSwitch = document.querySelector('.active.off #paginationSwitch');
-        const pagControls = document.querySelector('.active.off #pagination');
+        const pageSwitch = document.querySelector('.staff-screen #paginationSwitch');
+        const pagControls = document.querySelector('.staff-screen #pagination');
 
         if (pageSwitch.checked) {
             pagControls.style.display = 'flex';
@@ -159,8 +159,8 @@ const getReg = async () => {
     try {
         const response = await fetch('/api/registers');
         allReg = await response.json();
-        const pageSwitch = document.querySelector('.active.off #paginationSwitch');
-        const pagControls = document.querySelector('.active.off #pagination');
+        const pageSwitch = document.querySelector('.register-screen #paginationSwitch');
+        const pagControls = document.querySelector('.staff-screen #pagination');
 
         if (pageSwitch.checked) {
             pagControls.style.display = 'flex';
@@ -198,38 +198,6 @@ refreshPatients.forEach((rfElement) => {
         }, 4000)
     });
 })
-
-
-
-actionAreaBtns.forEach((actionAreaBtn) => {
-    actionAreaBtn.addEventListener("click", () => {
-        const currentAction = actionAreaBtn.textContent.trim();
-        const screen = actionAreaBtn.closest(".active.off");
-        const label = screen.querySelector(".dropdown-toggle");
-
-        console.log("AAB => ", screen)
-        // Perform action based on the current action label
-        switch (currentAction) {
-            case "Add":
-                // Code to handle add action
-                console.log("Add action clicked");
-                break;
-            case "Edit":
-                // Code to handle search action
-                console.log("Edit action clicked");
-                break;
-            case "Delete":
-                // Code to handle delete action
-                console.log("Delete action clicked");
-                break;
-            default:
-                console.log("Unknown action");
-        }
-
-        // Update the label if needed
-        // label.innerHTML = currentAction;
-    });
-});
 
 
 // Event delegation for delete and edit buttons
@@ -374,13 +342,10 @@ async function delRecord(event) {
 
 
 const allPageSwitch = document.querySelectorAll('#paginationSwitch');
-// Implementing Pagination
 allPageSwitch.forEach((pageSwitch) => {
-    pageSwitch.addEventListener('click', () => {
-
+    pageSwitch.addEventListener('change', () => {
         const page = pageSwitch.getAttribute('data-page');
         const paginate = pageSwitch.checked;
-        console.info(`Page: ${page}, Paginate: ${paginate}`);
 
         const parent = pageSwitch.closest(".active.off");
         if (parent.classList.contains('staff')) {
@@ -393,6 +358,7 @@ allPageSwitch.forEach((pageSwitch) => {
     });
 });
 
+
 // Function to update table with data for the current page
 function updateTables(page, array, pageNo, paginate) {
     const pagControls = document.querySelector('.active.off #pagination');
@@ -401,10 +367,12 @@ function updateTables(page, array, pageNo, paginate) {
         pagControls.style.display = 'flex';
     } else {
         pagControls.style.display = 'none';
+        // Show all data without pagination
+        pageList = array;
     }
-        
-    const startIndex = (pageNo - 1) * 5;
-    const endIndex = startIndex + 5;
+
+    const startIndex = (pageNo - 1) * 20;
+    const endIndex = startIndex + 20;
     const pageList = paginate ? array.slice(startIndex, endIndex) : array;
     // const patientTableBody = document.getElementById('patientBody');
     const bodyParent = document.querySelector(`.${page}`);
@@ -507,77 +475,80 @@ function updateTables(page, array, pageNo, paginate) {
 // Function to update pagination information (current page and total pages)
 function updatePaginationInfo(page, array) {
     const screen = document.querySelector(`.${page}`)
-    const totalPages = Math.ceil(array.length / 5);
+    const totalPages = Math.ceil(array.length / 20);
+    // updateTables()
 
     screen.querySelector('#currentPage').textContent = currentPage;
     screen.querySelector('#totalPages').textContent = totalPages;
 }
 
-// Event listener for previous button
-document.querySelector('.staff-screen #prevBtn').addEventListener('click', () => {
-            const pageSwitch = document.querySelector('.active.off #paginationSwitch');
+// // Event listener for previous button
+// document.querySelector('.staff-screen #prevBtn').addEventListener('click', () => {
+//     const pageSwitch = document.querySelector('.active.off #paginationSwitch');
 
-    if (currentPage > 1) {
-        currentPage--;
-        updateTables('staff-screen', allStaff, currentPage, pageSwitch.checked);
-        updatePaginationInfo('staff-screen', allStaff);
-    }
-});
+//     if (currentPage > 1) {
+//         currentPage--;
+//         updateTables('staff-screen', allStaff, currentPage, pageSwitch.checked);
+//         updatePaginationInfo('staff-screen', allStaff);
+//     }
+// });
 
-// Event listener for next button
-document.querySelector('.staff-screen #nextBtn').addEventListener('click', () => {
-            const pageSwitch = document.querySelector('.active.off #paginationSwitch');
+// // Event listener for next button
+// var staffNxt = staffScreen.querySelector('#nextBtn');
+// staffNxt.addEventListener('click', () => {
+//     console.log(staffNxt)
+//     const pageSwitch = document.querySelector('.active.off #paginationSwitch');
 
-    const totalPages = Math.ceil(allStaff.length / 5);
-    if (currentPage < totalPages) {
-        currentPage++;
-        updateTables('staff-screen', allStaff, currentPage, pageSwitch.checked);
-        updatePaginationInfo('staff-screen', allStaff);
-    }
-});
+//     const totalPages = Math.ceil(allStaff.length / 20);
+//     if (currentPage < totalPages) {
+//         currentPage++;
+//         updateTables('staff-screen', allStaff, currentPage, pageSwitch.checked);
+//         updatePaginationInfo('staff-screen', allStaff);
+//     }
+// });
 
-document.querySelector('.patient-screen #prevBtn').addEventListener('click', () => {
-            const pageSwitch = document.querySelector('.active.off #paginationSwitch');
+// document.querySelector('.patient-screen #prevBtn').addEventListener('click', () => {
+//             const pageSwitch = document.querySelector('.active.off #paginationSwitch');
 
-    if (currentPage > 1) {
-        currentPage--;
-        updateTables('patient-screen', allPatients, currentPage, pageSwitch.checked);
-        updatePaginationInfo('patient-screen', allPatients);
-    }
-});
+//     if (currentPage > 1) {
+//         currentPage--;
+//         updateTables('patient-screen', allPatients, currentPage, pageSwitch.checked);
+//         updatePaginationInfo('patient-screen', allPatients);
+//     }
+// });
 
-// Event listener for next button
-document.querySelector('.patient-screen #nextBtn').addEventListener('click', () => {
-    const pageSwitch = document.querySelector('.active.off #paginationSwitch');
+// // Event listener for next button
+// document.querySelector('.patient-screen #nextBtn').addEventListener('click', () => {
+//     const pageSwitch = document.querySelector('.active.off #paginationSwitch');
 
-    const totalPages = Math.ceil(allPatients.length / 5);
-    if (currentPage < totalPages) {
-        currentPage++;
-        updateTables('patient-screen', allPatients, currentPage, pageSwitch.checked);
-        updatePaginationInfo('patient-screen', allPatients);
-    }
-});
+//     const totalPages = Math.ceil(allPatients.length / 20);
+//     if (currentPage < totalPages) {
+//         currentPage++;
+//         updateTables('patient-screen', allPatients, currentPage, pageSwitch.checked);
+//         updatePaginationInfo('patient-screen', allPatients);
+//     }
+// });
 
 
 
-document.querySelector('.register-screen #prevBtn').addEventListener('click', () => {
-    const pageSwitch = document.querySelector('.active.off #paginationSwitch');
+// document.querySelector('.register-screen #prevBtn').addEventListener('click', () => {
+//     const pageSwitch = document.querySelector('.active.off #paginationSwitch');
 
-    if (currentPage > 1) {
-        currentPage--;
-        updateTables('register-screen', allReg, currentPage, pageSwitch.checked);
-        updatePaginationInfo('register-screen', allReg);
-    }
-});
+//     if (currentPage > 1) {
+//         currentPage--;
+//         updateTables('register-screen', allReg, currentPage, pageSwitch.checked);
+//         updatePaginationInfo('register-screen', allReg);
+//     }
+// });
 
-// Event listener for next button
-document.querySelector('.register-screen #nextBtn').addEventListener('click', () => {
-    const totalPages = Math.ceil(allReg.length / 5);
-    const pageSwitch = document.querySelector('.active.off #paginationSwitch');
+// // Event listener for next button
+// document.querySelector('.register-screen #nextBtn').addEventListener('click', () => {
+//     const totalPages = Math.ceil(allReg.length / 20);
+//     const pageSwitch = document.querySelector('.active.off #paginationSwitch');
 
-    if (currentPage < totalPages) {
-        currentPage++;
-        updateTables('register-screen', allReg, currentPage, pageSwitch.checked);
-        updatePaginationInfo('register-screen', allReg);
-    }
-});
+//     if (currentPage < totalPages) {
+//         currentPage++;
+//         updateTables('register-screen', allReg, currentPage, pageSwitch.checked);
+//         updatePaginationInfo('register-screen', allReg);
+//     }
+// });
