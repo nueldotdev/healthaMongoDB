@@ -22,78 +22,65 @@ let allPayment = [];
 let currentPage = 1
 let everything = [allPatients,allStaff,allPayment,allReg]
 
-// searc barrrrr
-// Function to handle the search operation
-function handleSearch(event) {
-    event.preventDefault(); // Prevent default form submission behavior
+// // searc barrrrr
+// // Function to handle the search operation
+// function handleSearch(event) {
+//     event.preventDefault(); // Prevent default form submission behavior
     
-    // Get the search query from the input field
-    const searchQuery = document.querySelector('#search-form input').value.trim().toLowerCase();
+//     // Get the search query from the input field
+//     const searchQuery = document.querySelector('#search-form input').value.trim().toLowerCase();
     
-    // Check if search query is not empty
-    if (searchQuery !== '') {
-        // Perform search operation
-        const searchResults = performSearch(everything, searchQuery); // Pass the array and search query
+//     // Check if search query is not empty
+//     if (searchQuery !== '') {
+//         // Perform search operation
+//         const searchResults = performSearch(everything, searchQuery); // Pass the array and search query
     
-        // Display search results
-        displaySearchResults(searchResults);
-    } else {
-        // If search query is empty, clear previous search results
-        const searchResultsContainer = document.querySelector('#search-results');
-        searchResultsContainer.innerHTML = '';
-    }
-}
-
-function performSearch(everything, query) {
-    const searchResults = everything.filter(item => {
-        // Check if item is defined and has the 'name' property
-        if (item && typeof item.name === 'string') {
-            // Convert name to lowercase and check if it includes the query
-            return item.name.toLowerCase().includes(query.toLowerCase());
-        }
-        return false; // If item is undefined or name is not a string, return false
-    });
-    
-    return searchResults;
-}
-// // Function to display search results
-// function displaySearchResults(results) {
-//     // Clear previous search results if any
-//     const searchResultsContainer = document.querySelector('#search-results');
-//     searchResultsContainer.innerHTML = '';
-    
-//     // Display search results
-//     results.forEach(result => {
-//         const resultElement = document.createElement('div');
-//         // Customize the content based on your array structure
-//         resultElement.textContent = result.name; // Assuming 'name' is the property to display
-//         searchResultsContainer.appendChild(resultElement);
-//     });
+//         // Display search results
+//         displaySearchResults(searchResults);
+//     } else {
+//         // If search query is empty, clear previous search results
+//         const searchResultsContainer = document.querySelector('#search-results');
+//         searchResultsContainer.innerHTML = '';
+//     }
 // }
-// Define a function to display search results
-function displaySearchResults(results) {
-    // Get a reference to the search results container
-    const searchResultsContainer = document.querySelector('#search-results');
+
+// function performSearch(everything, query) {
+//     const searchResults = everything.filter(item => {
+//         // Check if item is defined and has the 'name' property
+//         if (item && typeof item.name === 'string') {
+//             // Convert name to lowercase and check if it includes the query
+//             return item.name.toLowerCase().includes(query.toLowerCase());
+//         }
+//         return false; // If item is undefined or name is not a string, return false
+//     });
+    
+//     return searchResults;
+// }
+
+// // Define a function to display search results
+// function displaySearchResults(results) {
+//     // Get a reference to the search results container
+//     const searchResultsContainer = document.querySelector('#search-results');
    
-    // Check if the search results container exists
-    if (searchResultsContainer) {
-        // Clear previous search results if any
-        searchResultsContainer.innerHTML = '';
+//     // Check if the search results container exists
+//     if (searchResultsContainer) {
+//         // Clear previous search results if any
+//         searchResultsContainer.innerHTML = '';
 
-        // Display search results
-        results.forEach(result => {
-            const resultElement = document.createElement('div');
-            // Customize the content based on your array structure
-            resultElement.textContent = result.age; // Assuming 'name' is the property to display
-            searchResultsContainer.appendChild(resultElement);
-        });
-    } else {
-        console.error("Search results container not found.");
-    }
-}
+//         // Display search results
+//         results.forEach(result => {
+//             const resultElement = document.createElement('div');
+//             // Customize the content based on your array structure
+//             resultElement.textContent = result.age; // Assuming 'name' is the property to display
+//             searchResultsContainer.appendChild(resultElement);
+//         });
+//     } else {
+//         console.error("Search results container not found.");
+//     }
+// }
 
-// Add event listener to the search form
-document.querySelector('#search-form').addEventListener('submit', handleSearch);
+// // Add event listener to the search form
+// document.querySelector('#search-form').addEventListener('submit', handleSearch);
 
 
 
@@ -121,10 +108,10 @@ const patientScreen = document.getElementById("patient-screen");
 const staffScreen = document.getElementById("staff-screen");
 const paymentScreen = document.getElementById("payment-screen");
 
-// Forms
+// Forms 
 
-const regForm = registerScreen.querySelector("#regForm form");
-const staffForm = staffScreen.querySelector("#staffForm form");
+const regForm = registerScreen.querySelector(".main-form-all#regForm form");
+const staffForm = staffScreen.querySelector(".main-form-all#staffForm form");
 
 const listItems = document.querySelectorAll(".li-btn");
 const divs = document.querySelectorAll(".main-contained > div");

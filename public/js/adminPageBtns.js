@@ -78,3 +78,65 @@ registerNext.addEventListener('click', () => {
         updatePaginationInfo('register-screen', allReg);
     }
 });
+
+
+
+function searchList(list, searchTerm, activePage) {
+    // Convert searchTerm to lowercase for case-insensitive search
+    const searchTermLower = searchTerm.toLowerCase();
+
+    // Initialize an empty array to store search results
+    const searchResults = [];
+
+    // Iterate over each object in the list
+    list.forEach(item => {
+        // Convert each object's properties to an array of values
+        const values = Object.values(item);
+
+        // Check if any of the values contain the search term
+        const match = values.some(value => {
+            // Convert each value to lowercase for case-insensitive search
+            const valueLower = typeof value === 'string' ? value.toLowerCase() : value.toString().toLowerCase();
+            return valueLower.includes(searchTermLower);
+        });
+
+        // If any value matches the search term, add the object to the search results
+        if (match) {
+            searchResults.push(item);
+        }
+    });
+    const pageSwitch = document.querySelector('.staff-screen #paginationSwitch');
+    window.alert("Search ran")
+    updateTables(activePage, searchResults, currentPage, pageSwitch.checked)
+    window.alert("Search done")
+
+    
+    return searchResults;
+}
+
+
+// Search functionality
+// var regSearch = registerScreen.querySelector('#search-form');
+// var staffSearch = staffScreen.querySelector('#search-form');
+var allSearchFor = document.querySelectorAll('#search-form');
+
+allSearchFor.forEach((element) => {
+    element.addEventListener('submit', (event) => {
+        event.preventDefault();
+        let searchQuery = element.querySelector('input').value.trim().toLowerCase();
+
+        let activePage = document.querySelector('.active.off');
+        let array;
+        let active;
+
+        if (activePage.id == 'register-screen') {
+            array = allReg
+        } else if (activePage.id == 'staff-screen') {
+            array = allStaff
+        } else if (activePage.id == 'patient-screen') {
+            array =  allPatients
+        }
+
+        searchList(array, searchQuery, activePage.id);
+    })
+})

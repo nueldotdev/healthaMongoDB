@@ -1,5 +1,5 @@
 
-async function makeRequest(endpoint, method, data) {
+async function makeRequest(endpoint, method, data, form) {
     try {
         const response = await fetch(endpoint, {
             method: method,
@@ -24,7 +24,19 @@ async function makeRequest(endpoint, method, data) {
         // Show error message using window alert
         window.alert('Error making request: ' + error.message);
     }
+
+    clearForm(form)
+    getDocs();
 }
+
+function registerID() {
+    // Generate a random number between 100000 and 999999
+    return Math.floor(Math.random() * 900000) + 100000;
+}
+
+// Example usage:
+const regID = registerID();
+
 
 
 staffForm.addEventListener('submit', async function(e) {
@@ -39,18 +51,6 @@ staffForm.addEventListener('submit', async function(e) {
     const department = formData.get('department');
     const email = formData.get('email');
     const contact = formData.get('contact');
-
-    // window.alert(formData);
-
-    function clearForm() {
-        staffForm.querySelector('input[name="id"]').value = ""; // Assuming you have an input field with name "id" for the record ID
-        staffForm.querySelector('input[name="name"]').value = "";
-        staffForm.querySelector('select[name="gender"]').selectedIndex = 0;
-        staffForm.querySelector('input[name="role"]').value = '';
-        staffForm.querySelector('input[name="department"]').value = '';
-        staffForm.querySelector('input[name="email"]').value = '';
-        staffForm.querySelector('input[name="contact"]').value = '';
-    }
 
     // Create a new staff object
     const newStaff = id ? {
@@ -75,17 +75,17 @@ staffForm.addEventListener('submit', async function(e) {
         record = allStaff.find(item => item._id == id)
         const confirmed = window.confirm(`You want to Edit in database: \n\nName: ${record.name} => ${name}, \n\nRole: ${record.role} => ${role} \n\n Gender: ${record.gender} => ${gender} \n\nDepartment: ${record.department} => ${department} \n\nEmail: ${record.email} => ${email} \n\nContact: ${record.contact} => ${contact} \n\n`);
         if (confirmed) {
-            makeRequest(`/api/staff/${id}`, "PUT", newStaff)
+            makeRequest(`/api/staff/${id}`, "PUT", newStaff, staffForm)
         } else {
-            clearForm()
+            clearForm(staffForm)
         }
 
     } else {
         const confirmed = window.confirm(`You want to Add to database: Name: ${name}, Role: ${role}`);
         if (confirmed) {
-            makeRequest('/api/staff', "POST", newStaff)
+            makeRequest('/api/staff', "POST", newStaf, staffForm)
         } else {
-            clearForm()
+            clearForm(staffForm)
         }
     }
     
@@ -105,19 +105,7 @@ regForm.addEventListener('submit', async function(e) {
     const is_patient = formData.get('is_patient');
     const contact = formData.get('contact');
     const date = new Date().toISOString();
-
-    // window.alert(formData);
-
-    function clearForm() {
-        regForm.querySelector('input[name="id"]').value = ""; // Assuming you have an input field with name "id" for the record ID
-        regForm.querySelector('input[name="name"]').value = "";
-        regForm.querySelector('select[name="gender"]').selectedIndex = 0;
-        regForm.querySelector('select[name="is_patient"]').selectedIndex = 0;
-        regForm.querySelector('input[name="age"]').value = '';
-        regForm.querySelector('input[name="address"]').value = '';
-        regForm.querySelector('input[name="email"]').value = '';
-        regForm.querySelector('input[name="contact"]').value = '';
-    }
+    const registration_id = registerID();
 
     // Create a new staff object
     const newReg = id ? {
@@ -130,31 +118,31 @@ regForm.addEventListener('submit', async function(e) {
         contact,
         date
     } : {
+        registration_id,
         name,
         gender,
         age,
         address,
         is_patient,
-        contact,
-        date
+        contact
     };
     console.log(newReg)
 
     if (id) {
         record = allReg.find(item => item._id == id)
-        const confirmed = window.confirm(`You want to Edit in database: \n\nName: ${record.name} => ${name}, \n\nRole: ${record.role} => ${role} \n\n Gender: ${record.gender} => ${gender} \n\nDepartment: ${record.department} => ${department} \n\nEmail: ${record.email} => ${email} \n\nContact: ${record.contact} => ${contact} \n\n`);
+        const confirmed = window.confirm(`You want to Edit in database: \n\nName: ${record.name} => ${name} \n\nGender: ${record.gender} => ${gender} \n\nAddress: ${record.address} => ${address} \n\nAge: ${record.age} => ${age} \n\nContact: ${record.contact} => ${contact} \n\n`);
         if (confirmed) {
-            makeRequest(`/api/registers/${id}`, "PUT", newReg)
+            makeRequest(`/api/registers/${id}`, "PUT", newReg, regForm)
         } else {
-            clearForm()
+            clearForm(regForm)
         }
 
     } else {
-        const confirmed = window.confirm(`You want to Add to database: Name: ${name}, Role: ${role}`);
+        const confirmed = window.confirm(`You want to Add to database: \n\nName: ${newReg.name}\n\nGender: ${newReg.gender}\n\nAddress: ${newReg.address}\n\nIs Patient: ${newReg.is_patient}\n\nAge: ${newReg.age}\n\nContact: ${newReg.contact}\n\n`);
         if (confirmed) {
-            makeRequest('/api/registers', "POST", newReg)
+            makeRequest('/api/registers', "POST", newReg, regForm)
         } else {
-            clearForm()
+            clearForm(regForm)
         }
     }
     
@@ -164,13 +152,15 @@ regForm.addEventListener('submit', async function(e) {
 // NOTE: Check clearform()
 
 
-// function clearForm(param) {
-//     const inFields = param.querySelectorAll('input');
-//     inFields.forEach(element => {
-//         element.value = '';
-//     });
-//     const selFields = param.querySelectorAll('select');
-//     selFields.forEach(element => {
-//         element.selectedIndex = 0;
-//     });
-// }
+function clearForm(param) {
+    const inFields = param.querySelectorAll('input');
+    inFields.forEach(element => {
+        element.value = '';
+    });
+    const selFields = param.querySelectorAll('select');
+    selFields.forEach(element => {
+        element.selectedIndex = 0;
+    });
+
+    param.querySelector('input[name="id"]').value = "";
+}
